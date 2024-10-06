@@ -1,24 +1,37 @@
 # Async::ConditionsList
 
-TODO: Delete this and the text below, and describe your gem
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/async/conditions_list`. To experiment with that code, run `bin/console` for an interactive prompt.
+An extension to Async gem that allows to create a list of condition, wait for it and receive an array of results
 
 ## Installation
-
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
 
 Install the gem and add to the application's Gemfile by executing:
 
     $ bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
 
-If bundler is not being used to manage dependencies, install the gem by executing:
-
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
-
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'async'
+require 'async/conditions_list'
+
+conditions_list = Async::ConditionsList.new(3)
+
+Sync do |task|
+  task.async do
+    results = conditions_list.wait
+    p "All conditions have been met!"
+    p results
+  end
+
+  # Simulate asynchronous events
+  task.sleep(1)
+  conditions_list.signal(1)
+  task.sleep(1)
+  conditions_list.signal(2)
+  task.sleep(1)
+  conditions_list.signal(3)
+end
+```
 
 ## Development
 
@@ -28,4 +41,4 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/async-conditions_list.
+Bug reports and pull requests are welcome on GitHub at https://github.com/holywalley/async-conditions_list.
